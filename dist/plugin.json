@@ -1,0 +1,16 @@
+{
+  "type": "panel",
+  "name": "MultiStat",
+  "id": "pfgithub-multistat-panel",
+
+  "info": {
+    "description": "Multistat panel for Grafana",
+    "author": {
+      "name": "pfgithub",
+      "url": "https://pfgithub.github.io"
+    },
+    "keywords": ["stat", "multistat", "panel"],
+    "version": "1.0.0",
+    "updated": "2019-07-10"
+  }
+}

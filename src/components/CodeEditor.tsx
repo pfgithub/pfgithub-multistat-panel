@@ -4,7 +4,6 @@ import { config } from "@grafana/runtime";
 type Props = {
 	value: string;
 	onChange: (newValue: string) => void;
-	onBlur: () => void;
 };
 type State = {};
 
@@ -22,7 +21,6 @@ export class CodeEditor extends Component<Props, State> {
 				}}
 				value={this.props.value}
 				onChange={e => this.props.onChange(e.currentTarget.value)}
-				onBlur={this.props.onBlur}
 			/>
 		);
 	}
