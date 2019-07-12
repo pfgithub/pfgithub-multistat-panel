@@ -58,6 +58,7 @@ var MultistatPanelEditor = /** @class */ (function (_super) {
         }, 500);
     };
     MultistatPanelEditor.prototype.getVariables = function () {
+        console.log("text is", this.state.text);
         return this.state.text.split(/(\${__cell[:_].+?}|\n)/g) || ["No Options"];
     };
     MultistatPanelEditor.prototype.render = function () {

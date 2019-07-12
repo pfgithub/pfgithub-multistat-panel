@@ -1,4 +1,4 @@
-import { Select, Button, FormField, ColorPicker, UnitPicker, FormLabel, Switch } from "@grafana/ui";
+import { Select, AsyncSelect, Button, FormField, ColorPicker, UnitPicker, FormLabel, Switch } from "@grafana/ui";
 import React, { Component } from "react";
 
 import { MultistatRule } from "../types";
@@ -23,7 +23,7 @@ export class RuleEditor extends Component<Props, State> {
 					<h5 className="section-heading">Options</h5>
 					<div className="gf-form">
 						<FormLabel width={10}>Apply to</FormLabel>
-						<Select
+						<AsyncSelect<string>
 							width={16}
 							isClearable={false}
 							isMulti={false}
@@ -32,10 +32,18 @@ export class RuleEditor extends Component<Props, State> {
 								label: this.props.rule.name,
 								value: this.props.rule.name
 							}}
-							options={this.props.getVariables().map(v => ({
-								label: v,
-								value: v
-							}))}
+							loadOptions={() =>
+								new Promise(resolve =>
+									resolve(
+										this.props.getVariables().map(v => ({
+											label: v,
+											value: v
+										}))
+									)
+								)
+							}
+							loadingMessage={() => "Loading..."}
+							defaultOptions={true}
 							onChange={item => {
 								if (!item.value) {
 									return;

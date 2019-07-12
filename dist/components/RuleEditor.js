@@ -48,13 +48,17 @@ var RuleEditor = /** @class */ (function (_super) {
                 react_1.default.createElement("h5", { className: "section-heading" }, "Options"),
                 react_1.default.createElement("div", { className: "gf-form" },
                     react_1.default.createElement(ui_1.FormLabel, { width: 10 }, "Apply to"),
-                    react_1.default.createElement(ui_1.Select, { width: 16, isClearable: false, isMulti: false, isSearchable: true, value: {
+                    react_1.default.createElement(ui_1.AsyncSelect, { width: 16, isClearable: false, isMulti: false, isSearchable: true, value: {
                             label: this.props.rule.name,
                             value: this.props.rule.name
-                        }, options: this.props.getVariables().map(function (v) { return ({
-                            label: v,
-                            value: v
-                        }); }), onChange: function (item) {
+                        }, loadOptions: function () {
+                            return new Promise(function (resolve) {
+                                return resolve(_this.props.getVariables().map(function (v) { return ({
+                                    label: v,
+                                    value: v
+                                }); }));
+                            });
+                        }, loadingMessage: function () { return "Loading..."; }, defaultOptions: true, onChange: function (item) {
                             if (!item.value) {
                                 return;
                             }

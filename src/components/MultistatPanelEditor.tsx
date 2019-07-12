@@ -33,6 +33,7 @@ export class MultistatPanelEditor extends PureComponent<Props, State> {
 	onFeedUrlChange = ({ target }: { target: any }) => this.setState({ text: target.value });
 
 	getVariables(): string[] {
+		console.log("text is", this.state.text);
 		return this.state.text.split(/(\${__cell[:_].+?}|\n)/g) || ["No Options"];
 	}
 	render() {
