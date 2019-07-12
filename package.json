@@ -1,0 +1,18 @@
+{
+	"name": "multistat",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "pfg <omegariisthebest@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"@grafana/runtime": "^6.3.0-alpha.32",
+		"@grafana/ui": "^6.3.0-alpha.32",
+		"react": "^16.8.6"
+	},
+	"scripts": {
+		"build": "tsc && cp src/plugin.json dist"
+	},
+	"devDependencies": {
+		"typescript": "^3.5.3"
+	}
+}
