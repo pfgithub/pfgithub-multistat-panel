@@ -1,10 +1,10 @@
 import { Select, Button, FormField, ColorPicker, UnitPicker, FormLabel, Switch } from "@grafana/ui";
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 
 import { MultistatRule } from "../types";
 
 type Props = {
-	variables: string[];
+	getVariables: () => string[];
 	rule: MultistatRule;
 	onChange: (rule: MultistatRule) => void;
 	onDelete: () => void;
@@ -12,7 +12,10 @@ type Props = {
 };
 type State = {};
 
-export class RuleEditor extends PureComponent<Props, State> {
+export class RuleEditor extends Component<Props, State> {
+	shouldComponentUpdate(newProps: Props) {
+		return newProps.rule !== this.props.rule;
+	}
 	render() {
 		return (
 			<>
@@ -29,7 +32,7 @@ export class RuleEditor extends PureComponent<Props, State> {
 								label: this.props.rule.name,
 								value: this.props.rule.name
 							}}
-							options={this.props.variables.map(v => ({
+							options={this.props.getVariables().map(v => ({
 								label: v,
 								value: v
 							}))}

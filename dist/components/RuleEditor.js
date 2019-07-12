@@ -38,6 +38,9 @@ var RuleEditor = /** @class */ (function (_super) {
     function RuleEditor() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    RuleEditor.prototype.shouldComponentUpdate = function (newProps) {
+        return newProps.rule !== this.props.rule;
+    };
     RuleEditor.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement(react_1.default.Fragment, null,
@@ -48,7 +51,7 @@ var RuleEditor = /** @class */ (function (_super) {
                     react_1.default.createElement(ui_1.Select, { width: 16, isClearable: false, isMulti: false, isSearchable: true, value: {
                             label: this.props.rule.name,
                             value: this.props.rule.name
-                        }, options: this.props.variables.map(function (v) { return ({
+                        }, options: this.props.getVariables().map(function (v) { return ({
                             label: v,
                             value: v
                         }); }), onChange: function (item) {
@@ -163,5 +166,5 @@ var RuleEditor = /** @class */ (function (_super) {
                         " Duplicate Rule")))));
     };
     return RuleEditor;
-}(react_1.PureComponent));
+}(react_1.Component));
 exports.RuleEditor = RuleEditor;

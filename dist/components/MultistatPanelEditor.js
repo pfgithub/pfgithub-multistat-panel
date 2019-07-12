@@ -57,9 +57,11 @@ var MultistatPanelEditor = /** @class */ (function (_super) {
             _this.props.onOptionsChange(__assign({}, _this.props.options, { text: _this.state.text, rules: _this.state.rules }));
         }, 500);
     };
+    MultistatPanelEditor.prototype.getVariables = function () {
+        return this.state.text.split(/(\${__cell[:_].+?}|\n)/g) || ["No Options"];
+    };
     MultistatPanelEditor.prototype.render = function () {
         var _this = this;
-        var variables = this.state.text.split(/(\${__cell[:_].+?}|\n)/g) || ["No Options"];
         return (react_1.default.createElement(react_1.default.Fragment, null,
             react_1.default.createElement(ui_1.PanelOptionsGroup, { title: "Feed" },
                 react_1.default.createElement(react_1.default.Fragment, null,
@@ -70,7 +72,7 @@ var MultistatPanelEditor = /** @class */ (function (_super) {
                                     text: e
                                 }, function () { return _this.onUpdatePanel(); });
                             } })))),
-            react_1.default.createElement(RuleListEditor_1.RuleListEditor, { variables: variables, rules: this.state.rules, onChange: function (rules) { return _this.setState({ rules: rules }, function () { return _this.onUpdatePanel(); }); } })));
+            react_1.default.createElement(RuleListEditor_1.RuleListEditor, { getVariables: function () { return _this.getVariables(); }, rules: this.state.rules, onChange: function (rules) { return _this.setState({ rules: rules }, function () { return _this.onUpdatePanel(); }); } })));
     };
     return MultistatPanelEditor;
 }(react_1.PureComponent));

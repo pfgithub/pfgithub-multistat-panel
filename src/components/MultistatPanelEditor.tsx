@@ -32,8 +32,10 @@ export class MultistatPanelEditor extends PureComponent<Props, State> {
 
 	onFeedUrlChange = ({ target }: { target: any }) => this.setState({ text: target.value });
 
+	getVariables(): string[] {
+		return this.state.text.split(/(\${__cell[:_].+?}|\n)/g) || ["No Options"];
+	}
 	render() {
-		let variables: string[] = this.state.text.split(/(\${__cell[:_].+?}|\n)/g) || ["No Options"];
 		return (
 			<>
 				<PanelOptionsGroup title="Feed">
@@ -57,7 +59,7 @@ export class MultistatPanelEditor extends PureComponent<Props, State> {
 					</>
 				</PanelOptionsGroup>
 				<RuleListEditor
-					variables={variables}
+					getVariables={() => this.getVariables()}
 					rules={this.state.rules}
 					onChange={rules => this.setState({ rules }, () => this.onUpdatePanel())}
 				/>

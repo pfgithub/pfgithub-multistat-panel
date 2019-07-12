@@ -32,7 +32,7 @@ export class MultistatPanel extends PureComponent<Props, State> {
 					{split
 						.map(value => {
 							if (value.match(/^(\${__cell[:_].+?})$/)) {
-								if (variablereplacements[value]) {
+								if (variablereplacements[value] !== undefined) {
 									return {
 										text: variablereplacements[value],
 										value

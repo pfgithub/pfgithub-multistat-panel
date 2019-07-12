@@ -1,17 +1,20 @@
 import { PanelOptionsGroup, Button } from "@grafana/ui";
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 
 import { MultistatRule, defaultMultistatRule } from "../types";
 import { RuleEditor } from "./RuleEditor";
 
 type Props = {
-	variables: string[];
+	getVariables: () => string[];
 	rules: MultistatRule[];
 	onChange: (rule: MultistatRule[]) => void;
 };
 type State = {};
 
-export class RuleListEditor extends PureComponent<Props, State> {
+export class RuleListEditor extends Component<Props, State> {
+	shouldComponentUpdate(newProps: Props) {
+		return this.props.rules !== newProps.rules;
+	}
 	render() {
 		return (
 			<PanelOptionsGroup title="Styles">
@@ -23,7 +26,7 @@ export class RuleListEditor extends PureComponent<Props, State> {
 								<RuleEditor
 									key={i}
 									rule={rule}
-									variables={this.props.variables}
+									getVariables={() => this.props.getVariables()}
 									onChange={newRule => {
 										this.props.onChange(
 											this.props.rules.map(currentRule =>

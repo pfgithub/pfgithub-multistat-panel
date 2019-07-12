@@ -40,6 +40,9 @@ var RuleListEditor = /** @class */ (function (_super) {
     function RuleListEditor() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    RuleListEditor.prototype.shouldComponentUpdate = function (newProps) {
+        return this.props.rules !== newProps.rules;
+    };
     RuleListEditor.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement(ui_1.PanelOptionsGroup, { title: "Styles" },
@@ -47,7 +50,7 @@ var RuleListEditor = /** @class */ (function (_super) {
                 this.props.rules.map(function (rule, i) {
                     return (react_1.default.createElement("div", { key: i },
                         i === 0 ? null : react_1.default.createElement("hr", null),
-                        react_1.default.createElement(RuleEditor_1.RuleEditor, { key: i, rule: rule, variables: _this.props.variables, onChange: function (newRule) {
+                        react_1.default.createElement(RuleEditor_1.RuleEditor, { key: i, rule: rule, getVariables: function () { return _this.props.getVariables(); }, onChange: function (newRule) {
                                 _this.props.onChange(_this.props.rules.map(function (currentRule) {
                                     return currentRule === rule ? newRule : currentRule;
                                 }));
@@ -65,5 +68,5 @@ var RuleListEditor = /** @class */ (function (_super) {
                     } }, "Add Rule"))));
     };
     return RuleListEditor;
-}(react_1.PureComponent));
+}(react_1.Component));
 exports.RuleListEditor = RuleListEditor;

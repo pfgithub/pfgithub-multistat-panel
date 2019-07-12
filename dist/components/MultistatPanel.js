@@ -58,7 +58,7 @@ var MultistatPanel = /** @class */ (function (_super) {
             react_1.default.createElement("div", null, split
                 .map(function (value) {
                 if (value.match(/^(\${__cell[:_].+?})$/)) {
-                    if (variablereplacements[value]) {
+                    if (variablereplacements[value] !== undefined) {
                         return {
                             text: variablereplacements[value],
                             value: value
