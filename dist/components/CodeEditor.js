@@ -21,7 +21,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
-var runtime_1 = require("@grafana/runtime");
 var CodeEditor = /** @class */ (function (_super) {
     __extends(CodeEditor, _super);
     function CodeEditor(props) {
@@ -32,8 +31,8 @@ var CodeEditor = /** @class */ (function (_super) {
     CodeEditor.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement("textarea", { style: {
-                backgroundColor: runtime_1.config.theme.colors.black,
-                color: runtime_1.config.theme.colors.white,
+                backgroundColor: "black",
+                color: "white",
                 width: "100%"
             }, rows: this.props.value.split("\n").length, value: this.props.value, onChange: function (e) { return _this.props.onChange(e.currentTarget.value); } }));
     };

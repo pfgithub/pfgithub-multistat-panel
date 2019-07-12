@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { config } from "@grafana/runtime";
 
 type Props = {
 	value: string;
@@ -16,8 +15,8 @@ export class CodeEditor extends Component<Props, State> {
 		return (
 			<textarea
 				style={{
-					backgroundColor: config.theme.colors.black,
-					color: config.theme.colors.white,
+					backgroundColor: "black",
+					color: "white",
 					width: "100%"
 				}}
 				rows={this.props.value.split("\n").length}

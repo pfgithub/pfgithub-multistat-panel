@@ -115,10 +115,9 @@ var RuleEditor = /** @class */ (function (_super) {
                             _this.props.onChange(__assign({}, _this.props.rule, { decimals: e.currentTarget.value === "" ? undefined : +e.currentTarget.value }));
                         } }))) : null,
                 this.props.rule.valueMode === "string" ? (react_1.default.createElement(react_1.default.Fragment, null,
-                    react_1.default.createElement("div", { className: "gf-form" },
-                        react_1.default.createElement(ui_1.FormField, { inputWidth: 16, labelWidth: 10, label: "Replace With", value: this.props.rule.replaceWith, onChange: function (e) {
-                                _this.props.onChange(__assign({}, _this.props.rule, { replaceWith: e.currentTarget.value }));
-                            } })))) : null,
+                    react_1.default.createElement(ui_1.FormField, { inputWidth: 16, labelWidth: 10, label: "Replace With", value: this.props.rule.replaceWith, onChange: function (e) {
+                            _this.props.onChange(__assign({}, _this.props.rule, { replaceWith: e.currentTarget.value }));
+                        } }))) : null,
                 react_1.default.createElement(ui_1.Switch, { checked: this.props.rule.useColor, label: "Use Color", labelClass: "width-10", onChange: function (newV) {
                         if (!newV)
                             return;
