@@ -1,20 +1,4 @@
-import {
-	PanelPlugin,
-	PanelProps,
-	PanelEditorProps,
-	PanelOptionsGroup,
-	FormField,
-	Select,
-	Button,
-	DeleteButton,
-	ColorPicker,
-	UnitPicker,
-	FormLabel,
-	Switch,
-	FieldDisplayEditor,
-	FieldDisplayOptions,
-	FieldPropertiesEditor
-} from "@grafana/ui";
+import { PanelOptionsGroup, Button } from "@grafana/ui";
 import React, { PureComponent } from "react";
 
 import { MultistatRule, defaultMultistatRule } from "../types";
@@ -53,6 +37,9 @@ export class RuleListEditor extends PureComponent<Props, State> {
 												currentRule === rule ? false : true
 											)
 										);
+									}}
+									onDuplicate={() => {
+										this.props.onChange([...this.props.rules, { ...rule }]);
 									}}
 								/>
 							</div>

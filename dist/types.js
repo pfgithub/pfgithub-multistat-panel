@@ -5,9 +5,17 @@ exports.defaults = {
     rules: []
 };
 exports.defaultMultistatRule = {
-    name: "New Rule",
-    color: "red",
+    name: "---select--",
+    onlyWhen: false,
+    onlyWhenMode: "equals",
+    onlyWhenEquals: "5",
+    onlyWhenRange: { from: 1, to: 3 },
+    valueMode: "number",
+    unit: "short",
+    decimals: undefined,
+    replaceWith: "value",
     useColor: false,
+    color: "red",
     fontSize: 50,
-    unit: { label: "short", value: "short" }
+    url: ""
 };

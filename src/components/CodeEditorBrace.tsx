@@ -1,4 +1,7 @@
+export {};
+/*
 import React, { Component } from "react";
+
 import ace from "brace";
 
 type Props = { value: string; onChange: (newValue: string) => void };
@@ -66,3 +69,4 @@ export class CodeEditor extends Component<Props, State> {
 		);
 	}
 }
+*/

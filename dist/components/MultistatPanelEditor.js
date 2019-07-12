@@ -70,9 +70,7 @@ var MultistatPanelEditor = /** @class */ (function (_super) {
                                     text: e
                                 }, function () { return _this.onUpdatePanel(); });
                             } })))),
-            react_1.default.createElement(RuleListEditor_1.RuleListEditor, { variables: variables, rules: this.state.rules, onChange: function (rules) {
-                    return _this.setState({ rules: rules }, function () { return _this.onUpdatePanel(); });
-                } })));
+            react_1.default.createElement(RuleListEditor_1.RuleListEditor, { variables: variables, rules: this.state.rules, onChange: function (rules) { return _this.setState({ rules: rules }, function () { return _this.onUpdatePanel(); }); } })));
     };
     return MultistatPanelEditor;
 }(react_1.PureComponent));

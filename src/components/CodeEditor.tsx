@@ -17,8 +17,10 @@ export class CodeEditor extends Component<Props, State> {
 			<textarea
 				style={{
 					backgroundColor: config.theme.colors.black,
-					color: config.theme.colors.white
+					color: config.theme.colors.white,
+					width: "100%"
 				}}
+				rows={this.props.value.split("\n").length}
 				value={this.props.value}
 				onChange={e => this.props.onChange(e.currentTarget.value)}
 			/>

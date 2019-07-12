@@ -46,31 +46,23 @@ var MultistatPanel = /** @class */ (function (_super) {
         var _this = this;
         var series = this.props.data.series;
         var text = this.props.options.text;
-        var rules = this.props.options.rules;
         var split = text.split(/(\${__cell[:_].+?}|\n)/g);
         var variablereplacements = {};
         series.forEach(function (s) {
             s.fields.map(function (field, i) {
-                variablereplacements["${__cell:" + field.name + "}"] =
-                    s.rows[0][i];
+                variablereplacements["${__cell:" + field.name + "}"] = s.rows[0][i];
                 variablereplacements["${__cell_" + i + "}"] = s.rows[0][i];
             });
         });
         return (react_1.default.createElement(react_1.default.Fragment, null,
             react_1.default.createElement("div", null, split
-                .map(function (value, i) {
+                .map(function (value) {
                 if (value.match(/^(\${__cell[:_].+?})$/)) {
                     if (variablereplacements[value]) {
                         return {
                             text: variablereplacements[value],
                             value: value
                         };
-                        // return (
-                        // 	<BigValue
-                        // 		key={i}
-                        // 		value={variablereplacements[value]}
-                        // 	/>
-                        // );
                     }
                     return { text: value + " not found", value: value };
                 }
@@ -79,26 +71,58 @@ var MultistatPanel = /** @class */ (function (_super) {
                 }
                 return { text: value, value: value };
             })
-                .map(function (value, i) {
+                .map(function (value) {
                 if (value.value === "\n") {
                     return react_1.default.createElement("br", null);
                 }
-                var data = _this.props.options.rules.find(function (rule) { return rule.name === value.value; });
+                var data = _this.props.options.rules.find(function (rule) {
+                    if (rule.name !== value.value) {
+                        return false;
+                    }
+                    if (!rule.onlyWhen) {
+                        return true;
+                    }
+                    if (rule.onlyWhenMode === "equals") {
+                        //eslint-disable-next-line eqeqeq
+                        return value.text == rule.onlyWhenEquals;
+                    }
+                    if (rule.onlyWhenMode === "range" && typeof value.text === "number") {
+                        return rule.onlyWhenRange.from <= value.text && value.text <= rule.onlyWhenRange.to;
+                    }
+                    return false;
+                });
                 if (!data) {
                     data = types_1.defaultMultistatRule;
                 }
-                var valueFormatter = ui_1.getValueFormat(data.unit.value);
+                var valueFormatter = ui_1.getValueFormat(data.unit);
                 var formatted = value.text;
-                if (typeof value.text === "number" &&
-                    valueFormatter) {
-                    formatted = valueFormatter(value.text, 2);
+                if (data.valueMode === "number") {
+                    if (typeof value.text === "number" && valueFormatter) {
+                        formatted = valueFormatter(value.text, data.decimals);
+                    }
                 }
-                data.color;
-                data.unit;
+                if (data.valueMode === "string") {
+                    formatted = data.replaceWith;
+                    Object.keys(variablereplacements).forEach(function (v) {
+                        var val = variablereplacements[v];
+                        formatted = ("" + formatted).split(v).join("" + val);
+                    });
+                }
+                var url = "";
+                if (data.url) {
+                    url = data.url || "";
+                    Object.keys(variablereplacements).forEach(function (v) {
+                        var val = variablereplacements[v];
+                        url = url.split(v + ":noencode").join("" + val);
+                        url = url.split(v).join(encodeURIComponent(val));
+                    });
+                }
                 var fontSize = (data.fontSize / 100) * BASE_FONT_SIZE;
-                return (react_1.default.createElement("span", { style: __assign({}, (data.useColor
-                        ? { color: data.color }
-                        : {}), { fontSize: fontSize + "px" }) }, formatted));
+                var style = __assign({}, (data.useColor ? { color: data.color } : {}), { fontSize: fontSize + "px" });
+                if (url) {
+                    return (react_1.default.createElement("a", { href: url, style: __assign({}, style, { textDecoration: "underline" }) }, formatted));
+                }
+                return react_1.default.createElement("span", { style: style }, formatted);
             }))));
     };
     return MultistatPanel;

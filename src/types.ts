@@ -2,11 +2,24 @@ import ValueMapping from "@grafana/ui";
 import { FieldDisplayOptions } from "@grafana/ui";
 
 export type MultistatRule = {
+	/* options */
 	name: string;
+
+	onlyWhen: boolean;
+	/**/ onlyWhenMode: "equals" | "range";
+	/*     */ onlyWhenEquals: string;
+	/*     */ onlyWhenRange: { from: number; to: number };
+
+	/* style */
+	valueMode: "number" | "string";
+	/**/ unit: string;
+	/**/ decimals: number | undefined;
+	/**/ replaceWith: string;
 	useColor: boolean;
+	/**/ color: string;
 	fontSize: number;
-	color: string;
-	unit: any;
+
+	url: string;
 };
 
 export type MultistatOptions = {
@@ -18,9 +31,20 @@ export const defaults: MultistatOptions = {
 	rules: []
 };
 export const defaultMultistatRule: MultistatRule = {
-	name: "New Rule",
-	color: "red",
+	name: "---select--",
+
+	onlyWhen: false,
+	onlyWhenMode: "equals",
+	onlyWhenEquals: "5",
+	onlyWhenRange: { from: 1, to: 3 },
+
+	valueMode: "number",
+	unit: "short",
+	decimals: undefined,
+	replaceWith: "value",
 	useColor: false,
+	color: "red",
 	fontSize: 50,
-	unit: { label: "short", value: "short" }
+
+	url: ""
 };

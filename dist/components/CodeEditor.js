@@ -33,8 +33,9 @@ var CodeEditor = /** @class */ (function (_super) {
         var _this = this;
         return (react_1.default.createElement("textarea", { style: {
                 backgroundColor: runtime_1.config.theme.colors.black,
-                color: runtime_1.config.theme.colors.white
-            }, value: this.props.value, onChange: function (e) { return _this.props.onChange(e.currentTarget.value); } }));
+                color: runtime_1.config.theme.colors.white,
+                width: "100%"
+            }, rows: this.props.value.split("\n").length, value: this.props.value, onChange: function (e) { return _this.props.onChange(e.currentTarget.value); } }));
     };
     return CodeEditor;
 }(react_1.Component));

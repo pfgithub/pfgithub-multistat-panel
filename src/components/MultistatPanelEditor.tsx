@@ -1,23 +1,7 @@
-import {
-	PanelPlugin,
-	PanelProps,
-	PanelEditorProps,
-	PanelOptionsGroup,
-	FormField,
-	Select,
-	Button,
-	DeleteButton,
-	ColorPicker,
-	UnitPicker,
-	FormLabel,
-	Switch,
-	FieldDisplayEditor,
-	FieldDisplayOptions,
-	FieldPropertiesEditor
-} from "@grafana/ui";
-import React, { Component, PureComponent } from "react";
+import { PanelEditorProps, PanelOptionsGroup, FormLabel } from "@grafana/ui";
+import React, { PureComponent } from "react";
 
-import { MultistatOptions, MultistatRule, defaultMultistatRule } from "../types";
+import { MultistatOptions, MultistatRule } from "../types";
 import { CodeEditor } from "./CodeEditor";
 import { RuleListEditor } from "./RuleListEditor";
 
