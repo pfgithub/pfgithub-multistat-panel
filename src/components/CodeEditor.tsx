@@ -11,6 +11,9 @@ export class CodeEditor extends Component<Props, State> {
 		super(props);
 		this.state = {};
 	}
+	shouldComponentUpdate(newProps: Props) {
+		return this.props.value !== newProps.value;
+	}
 	render() {
 		return (
 			<textarea

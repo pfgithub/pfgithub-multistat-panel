@@ -28,6 +28,9 @@ var CodeEditor = /** @class */ (function (_super) {
         _this.state = {};
         return _this;
     }
+    CodeEditor.prototype.shouldComponentUpdate = function (newProps) {
+        return this.props.value !== newProps.value;
+    };
     CodeEditor.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement("textarea", { style: {
