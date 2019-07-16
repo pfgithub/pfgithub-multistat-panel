@@ -46,9 +46,9 @@ export class MultistatPanel extends PureComponent<Props, State> {
 								}
 								return { text: value, value };
 							})
-							.map(value => {
+							.map((value, i) => {
 								if (value.value === "\n") {
-									return <br />;
+									return <br key={i - 0.5} />;
 								}
 								let data = this.props.options.rules.find(rule => {
 									if (rule.name !== value.value) {
@@ -103,12 +103,16 @@ export class MultistatPanel extends PureComponent<Props, State> {
 								};
 								if (url) {
 									return (
-										<a href={url} style={{ ...style, textDecoration: "underline" }}>
+										<a key={i} href={url} style={{ ...style, textDecoration: "underline" }}>
 											{formatted}
 										</a>
 									);
 								}
-								return <span style={style}>{formatted}</span>;
+								return (
+									<span key={i} style={style}>
+										{formatted}
+									</span>
+								);
 							})}
 					</div>
 				</CustomScrollbar>

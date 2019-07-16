@@ -72,9 +72,9 @@ var MultistatPanel = /** @class */ (function (_super) {
                     }
                     return { text: value, value: value };
                 })
-                    .map(function (value) {
+                    .map(function (value, i) {
                     if (value.value === "\n") {
-                        return react_1.default.createElement("br", null);
+                        return react_1.default.createElement("br", { key: i - 0.5 });
                     }
                     var data = _this.props.options.rules.find(function (rule) {
                         if (rule.name !== value.value) {
@@ -121,9 +121,9 @@ var MultistatPanel = /** @class */ (function (_super) {
                     var fontSize = (data.fontSize / 100) * BASE_FONT_SIZE;
                     var style = __assign({}, (data.useColor ? { color: data.color } : {}), { fontSize: fontSize + "px" });
                     if (url) {
-                        return (react_1.default.createElement("a", { href: url, style: __assign({}, style, { textDecoration: "underline" }) }, formatted));
+                        return (react_1.default.createElement("a", { key: i, href: url, style: __assign({}, style, { textDecoration: "underline" }) }, formatted));
                     }
-                    return react_1.default.createElement("span", { style: style }, formatted);
+                    return (react_1.default.createElement("span", { key: i, style: style }, formatted));
                 })))));
     };
     return MultistatPanel;
