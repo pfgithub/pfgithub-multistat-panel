@@ -55,75 +55,76 @@ var MultistatPanel = /** @class */ (function (_super) {
             });
         });
         return (react_1.default.createElement(react_1.default.Fragment, null,
-            react_1.default.createElement("div", null, split
-                .map(function (value) {
-                if (value.match(/^(\${__cell[:_].+?})$/)) {
-                    if (variablereplacements[value] !== undefined) {
-                        return {
-                            text: variablereplacements[value],
-                            value: value
-                        };
+            react_1.default.createElement(ui_1.CustomScrollbar, null,
+                react_1.default.createElement("div", null, split
+                    .map(function (value) {
+                    if (value.match(/^(\${__cell[:_].+?})$/)) {
+                        if (variablereplacements[value] !== undefined) {
+                            return {
+                                text: variablereplacements[value],
+                                value: value
+                            };
+                        }
+                        return { text: value + " not found", value: value };
                     }
-                    return { text: value + " not found", value: value };
-                }
-                if (value === "\n") {
+                    if (value === "\n") {
+                        return { text: value, value: value };
+                    }
                     return { text: value, value: value };
-                }
-                return { text: value, value: value };
-            })
-                .map(function (value) {
-                if (value.value === "\n") {
-                    return react_1.default.createElement("br", null);
-                }
-                var data = _this.props.options.rules.find(function (rule) {
-                    if (rule.name !== value.value) {
+                })
+                    .map(function (value) {
+                    if (value.value === "\n") {
+                        return react_1.default.createElement("br", null);
+                    }
+                    var data = _this.props.options.rules.find(function (rule) {
+                        if (rule.name !== value.value) {
+                            return false;
+                        }
+                        if (!rule.onlyWhen) {
+                            return true;
+                        }
+                        if (rule.onlyWhenMode === "equals") {
+                            //eslint-disable-next-line eqeqeq
+                            return value.text == rule.onlyWhenEquals;
+                        }
+                        if (rule.onlyWhenMode === "range" && typeof value.text === "number") {
+                            return (rule.onlyWhenRange.from <= value.text && value.text <= rule.onlyWhenRange.to);
+                        }
                         return false;
-                    }
-                    if (!rule.onlyWhen) {
-                        return true;
-                    }
-                    if (rule.onlyWhenMode === "equals") {
-                        //eslint-disable-next-line eqeqeq
-                        return value.text == rule.onlyWhenEquals;
-                    }
-                    if (rule.onlyWhenMode === "range" && typeof value.text === "number") {
-                        return rule.onlyWhenRange.from <= value.text && value.text <= rule.onlyWhenRange.to;
-                    }
-                    return false;
-                });
-                if (!data) {
-                    data = types_1.defaultMultistatRule;
-                }
-                var valueFormatter = ui_1.getValueFormat(data.unit);
-                var formatted = value.text;
-                if (data.valueMode === "number") {
-                    if (typeof value.text === "number" && valueFormatter) {
-                        formatted = valueFormatter(value.text, data.decimals);
-                    }
-                }
-                if (data.valueMode === "string") {
-                    formatted = data.replaceWith;
-                    Object.keys(variablereplacements).forEach(function (v) {
-                        var val = variablereplacements[v];
-                        formatted = ("" + formatted).split(v).join("" + val);
                     });
-                }
-                var url = "";
-                if (data.url) {
-                    url = data.url || "";
-                    Object.keys(variablereplacements).forEach(function (v) {
-                        var val = variablereplacements[v];
-                        url = url.split(v + ":noencode").join("" + val);
-                        url = url.split(v).join(encodeURIComponent(val));
-                    });
-                }
-                var fontSize = (data.fontSize / 100) * BASE_FONT_SIZE;
-                var style = __assign({}, (data.useColor ? { color: data.color } : {}), { fontSize: fontSize + "px" });
-                if (url) {
-                    return (react_1.default.createElement("a", { href: url, style: __assign({}, style, { textDecoration: "underline" }) }, formatted));
-                }
-                return react_1.default.createElement("span", { style: style }, formatted);
-            }))));
+                    if (!data) {
+                        data = types_1.defaultMultistatRule;
+                    }
+                    var valueFormatter = ui_1.getValueFormat(data.unit);
+                    var formatted = value.text;
+                    if (data.valueMode === "number") {
+                        if (typeof value.text === "number" && valueFormatter) {
+                            formatted = valueFormatter(value.text, data.decimals);
+                        }
+                    }
+                    if (data.valueMode === "string") {
+                        formatted = data.replaceWith;
+                        Object.keys(variablereplacements).forEach(function (v) {
+                            var val = variablereplacements[v];
+                            formatted = ("" + formatted).split(v).join("" + val);
+                        });
+                    }
+                    var url = "";
+                    if (data.url) {
+                        url = data.url || "";
+                        Object.keys(variablereplacements).forEach(function (v) {
+                            var val = variablereplacements[v];
+                            url = url.split(v + ":noencode").join("" + val);
+                            url = url.split(v).join(encodeURIComponent(val));
+                        });
+                    }
+                    var fontSize = (data.fontSize / 100) * BASE_FONT_SIZE;
+                    var style = __assign({}, (data.useColor ? { color: data.color } : {}), { fontSize: fontSize + "px" });
+                    if (url) {
+                        return (react_1.default.createElement("a", { href: url, style: __assign({}, style, { textDecoration: "underline" }) }, formatted));
+                    }
+                    return react_1.default.createElement("span", { style: style }, formatted);
+                })))));
     };
     return MultistatPanel;
 }(react_1.PureComponent));

@@ -1,4 +1,4 @@
-import { PanelProps, getValueFormat } from "@grafana/ui";
+import { PanelProps, getValueFormat, CustomScrollbar } from "@grafana/ui";
 import React, { PureComponent } from "react";
 
 import { MultistatOptions, defaultMultistatRule } from "../types";
@@ -28,86 +28,90 @@ export class MultistatPanel extends PureComponent<Props, State> {
 		});
 		return (
 			<>
-				<div>
-					{split
-						.map(value => {
-							if (value.match(/^(\${__cell[:_].+?})$/)) {
-								if (variablereplacements[value] !== undefined) {
-									return {
-										text: variablereplacements[value],
-										value
-									};
+				<CustomScrollbar>
+					<div>
+						{split
+							.map(value => {
+								if (value.match(/^(\${__cell[:_].+?})$/)) {
+									if (variablereplacements[value] !== undefined) {
+										return {
+											text: variablereplacements[value],
+											value
+										};
+									}
+									return { text: `${value} not found`, value };
 								}
-								return { text: `${value} not found`, value };
-							}
-							if (value === "\n") {
+								if (value === "\n") {
+									return { text: value, value };
+								}
 								return { text: value, value };
-							}
-							return { text: value, value };
-						})
-						.map(value => {
-							if (value.value === "\n") {
-								return <br />;
-							}
-							let data = this.props.options.rules.find(rule => {
-								if (rule.name !== value.value) {
+							})
+							.map(value => {
+								if (value.value === "\n") {
+									return <br />;
+								}
+								let data = this.props.options.rules.find(rule => {
+									if (rule.name !== value.value) {
+										return false;
+									}
+									if (!rule.onlyWhen) {
+										return true;
+									}
+									if (rule.onlyWhenMode === "equals") {
+										//eslint-disable-next-line eqeqeq
+										return value.text == rule.onlyWhenEquals;
+									}
+									if (rule.onlyWhenMode === "range" && typeof value.text === "number") {
+										return (
+											rule.onlyWhenRange.from <= value.text && value.text <= rule.onlyWhenRange.to
+										);
+									}
 									return false;
-								}
-								if (!rule.onlyWhen) {
-									return true;
-								}
-								if (rule.onlyWhenMode === "equals") {
-									//eslint-disable-next-line eqeqeq
-									return value.text == rule.onlyWhenEquals;
-								}
-								if (rule.onlyWhenMode === "range" && typeof value.text === "number") {
-									return rule.onlyWhenRange.from <= value.text && value.text <= rule.onlyWhenRange.to;
-								}
-								return false;
-							});
-							if (!data) {
-								data = defaultMultistatRule;
-							}
-							let valueFormatter = getValueFormat(data.unit);
-							let formatted = value.text;
-							if (data.valueMode === "number") {
-								if (typeof value.text === "number" && valueFormatter) {
-									formatted = valueFormatter(value.text, data.decimals);
-								}
-							}
-							if (data.valueMode === "string") {
-								formatted = data.replaceWith;
-								Object.keys(variablereplacements).forEach(v => {
-									let val = variablereplacements[v];
-									formatted = ("" + formatted).split(v).join("" + val);
 								});
-							}
+								if (!data) {
+									data = defaultMultistatRule;
+								}
+								let valueFormatter = getValueFormat(data.unit);
+								let formatted = value.text;
+								if (data.valueMode === "number") {
+									if (typeof value.text === "number" && valueFormatter) {
+										formatted = valueFormatter(value.text, data.decimals);
+									}
+								}
+								if (data.valueMode === "string") {
+									formatted = data.replaceWith;
+									Object.keys(variablereplacements).forEach(v => {
+										let val = variablereplacements[v];
+										formatted = ("" + formatted).split(v).join("" + val);
+									});
+								}
 
-							let url: string = "";
+								let url: string = "";
 
-							if (data.url) {
-								url = data.url || "";
-								Object.keys(variablereplacements).forEach(v => {
-									let val = variablereplacements[v];
-									url = url.split(v + ":noencode").join("" + val);
-									url = url.split(v).join(encodeURIComponent(val));
-								});
-							}
-							let fontSize = (data.fontSize / 100) * BASE_FONT_SIZE;
-							let style = {
-								...(data.useColor ? { color: data.color } : {}),
-								fontSize: `${fontSize}px`
-							};
-							if (url) {
-								return (
-									<a href={url} style={{ ...style, textDecoration: "underline" }}>
-										{formatted}
-									</a>
-								);
-							}
-							return <span style={style}>{formatted}</span>;
-						})}
-				</div>
+								if (data.url) {
+									url = data.url || "";
+									Object.keys(variablereplacements).forEach(v => {
+										let val = variablereplacements[v];
+										url = url.split(v + ":noencode").join("" + val);
+										url = url.split(v).join(encodeURIComponent(val));
+									});
+								}
+								let fontSize = (data.fontSize / 100) * BASE_FONT_SIZE;
+								let style = {
+									...(data.useColor ? { color: data.color } : {}),
+									fontSize: `${fontSize}px`
+								};
+								if (url) {
+									return (
+										<a href={url} style={{ ...style, textDecoration: "underline" }}>
+											{formatted}
+										</a>
+									);
+								}
+								return <span style={style}>{formatted}</span>;
+							})}
+					</div>
+				</CustomScrollbar>
 			</>
 		);
 	}
