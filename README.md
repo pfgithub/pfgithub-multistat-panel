@@ -15,3 +15,4 @@ todo
 - bold font option like singlestat
 - center text option like singlestat
 - background color option like singlesat (use a global value with a range picker where you pick a cell and set the color based on that cell)
+- use ace editor instead of the current bad textbox
